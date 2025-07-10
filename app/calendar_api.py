@@ -6,11 +6,13 @@ from googleapiclient.discovery import build
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 CLIENT_SECRETS_FILE = "credentials.json"
 
+# Automatically switch between local and production
 def get_flow():
+    redirect_uri = os.getenv("REDIRECT_URI", "http://localhost:5000/oauth2callback")
     return Flow.from_client_secrets_file(
         CLIENT_SECRETS_FILE,
         scopes=SCOPES,
-        redirect_uri='http://localhost:5000/oauth2callback'
+        redirect_uri=redirect_uri
     )
 
 def get_calendar_service(creds=None):
